@@ -26,6 +26,7 @@ namespace Gefärdungberechnen
         {
             test.Gesamtleistungkamera = double.Parse(textBox1.Text);
              test.Gesamtleistung14rad = double.Parse(textBox6.Text);
+            test.LeistungkleineQuellen = double.Parse(textBox7.Text);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -72,7 +73,7 @@ namespace Gefärdungberechnen
             test.getIRSTRahlung();
 
 
-
+            test.getRisikostufe();
 
 
             pictureBox1.Image = test.Bitma;
@@ -111,14 +112,22 @@ namespace Gefärdungberechnen
             listBox1.Items.Add("Ewertn" + test.ExpositionswertN);
             listBox1.Items.Add("Ewerto" + test.ExpositionswertO);
 
-           
+
+            listBox1.Items.Add(test.RisikostufeaktinischesUV);
+            listBox1.Items.Add(test.RisikostufeAugeUVA);
+            listBox1.Items.Add(test.RisikostufeBlaulicht);
+            listBox1.Items.Add(test.RisikostufeIRstrahlung);
+            listBox1.Items.Add(test.RisikostufeNetzhautthermisch);
+            listBox1.Items.Add(test.Risikostufethermischschwacherreiz);
 
 
 
         }
-        
-         private void button9_Click(object sender, EventArgs e)
+
+        private void button9_Click(object sender, EventArgs e)
         {
+            test.testbitmap();
+
             test.Empfangswinkel = double.Parse(textBox4.Text);
             test.Bildabstand = double.Parse(textBox5.Text);
 
@@ -135,7 +144,8 @@ namespace Gefärdungberechnen
 
             test.getVerbrennungsgefahrschwachervisuellerreizTROS(double.Parse(textBox4.Text));
             test.getVerbrennungsgefahrTROS(double.Parse(textBox4.Text));
-
+            
+            
            pictureBox1.Image =test.Bitma;
 
 
@@ -156,3 +166,4 @@ namespace Gefärdungberechnen
       
     }
 }
+
