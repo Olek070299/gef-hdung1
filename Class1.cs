@@ -55,6 +55,10 @@ using Spektrum_Fertig;
         public string RisikostufeIRstrahlung { get { return risikostufeIRstrahlung; } set { risikostufeIRstrahlung = value; } }
 
 
+        private string risikostufehauthermisch;
+        public string Risikostufehauthermisch { get { return risikostufehauthermisch; } set { risikostufehauthermisch = value; } }
+
+
         private double gesamtleistung14rad;
         public double Gesamtleistung14rad { get { return gesamtleistung14rad; } set { gesamtleistung14rad = value; } }
 
@@ -125,6 +129,18 @@ using Spektrum_Fertig;
                     get { return verbrennungsgefahrwirkfkt; }
                     set { verbrennungsgefahrwirkfkt = value; }
                 }
+
+
+        private List<double> hautThermisch;
+        public List<double>Hautthermisch
+        {
+            get { return hautThermisch; }
+            set { hautThermisch = value; }
+        }
+
+
+
+
         private List<double> spektrumcounts;
         public List<double> Spektrumcounts
         {
@@ -279,7 +295,7 @@ using Spektrum_Fertig;
 
         private List<double> hautthermisch;
 
-        public List<double> Hautthermisch { get { return hautthermisch; } set { hautthermisch = value; } }
+       
 
         private List<double> blaulicht;
 
@@ -414,7 +430,7 @@ using Spektrum_Fertig;
          
             spektrumcounts = new List<double>();
 
-            spektrumcnt.readTextFile(@"E:\Bachelorarbeit Versuch 1\Bilder\wads\Fahrradlamestarkkk.txt");
+            spektrumcnt.readTextFile(@"E:\Bachelorarbeit Versuch 1\Bilder\wads\proflextaschenlampeespektrum.txt");
             spektrumcnt.flaechenormieren();
             for(int i = 0; i < spektrumcnt.Counts.Count; i++)
             {
@@ -1655,8 +1671,56 @@ using Spektrum_Fertig;
         }
 
 
+        public void gethautthermische()
+        {
+            for (int j = 0; j < empfangswinkel62471.Count; j++)
+            {
+                zwspeicherliste.Clear();
 
-        public void getRisikostufe()
+
+                aperaturdurchmesser = 1.4 * 0.2;
+
+
+                aperaturradius = aperaturdurchmesser / 2;
+
+                bestrahlungsstärke = gesamtleistung14rad / (Math.PI * (aperaturradius * aperaturradius));
+
+
+
+
+                for (int i = 0; i < wellenlaenge.Count; i++)
+                {
+
+                    if (wellenlaenge[i] == 380)
+                    {
+                        x = i;
+                    }
+                    else if (wellenlaenge[i] == 1400)
+                    {
+                        y = i;
+                    }
+                }
+                for (int i = x; i <= y; i++)
+                {
+
+                    zwspeicherliste.Add(bestrahlungsstärke * spektrumcounts[i]);
+                }
+
+                for (int i = 0; i < zwspeicherliste.Count; i++)
+                {
+                    hautThermisch[j] = hautThermisch[j] + zwspeicherliste[i];
+
+                }
+            }
+        }
+
+
+
+    
+
+
+
+    public void getRisikostufe()
         {
 
             double Expositionswert = 0;
@@ -1798,8 +1862,16 @@ using Spektrum_Fertig;
                 risikostufeNetzhauthermischschwachereiz = "Mittleres Risiko";
             }
 
+            Expositionswert0 = hautThermisch[0];
 
-
+            if (Expositionswert0 < 35565.59)
+            {
+                risikostufehauthermisch = "Risikofrei";
+            }
+            else
+            {
+                risikostufehauthermisch = "Grenzwert überschritten";
+            }
 
 
 
