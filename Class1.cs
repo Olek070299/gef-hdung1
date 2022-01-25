@@ -103,7 +103,9 @@ using Spektrum_Fertig;
         private Bitmap bitma100;
         public Bitmap Bitma100 { set { bitma100 = value; } get { return bitma100; } }
 
+        private double leistungkleineQuellen;
 
+        public double LeistungkleineQuellen { get { return leistungkleineQuellen; } set { leistungkleineQuellen = value; } }
 
         int x = 0;
         int y = 0;
@@ -412,7 +414,7 @@ using Spektrum_Fertig;
          
             spektrumcounts = new List<double>();
 
-            spektrumcnt.readTextFile(@"E:\Bachelorarbeit Versuch 1\Spektrum_1111.txt");
+            spektrumcnt.readTextFile(@"E:\Bachelorarbeit Versuch 1\Bilder\wads\Fahrradlamestarkkk.txt");
             spektrumcnt.flaechenormieren();
             for(int i = 0; i < spektrumcnt.Counts.Count; i++)
             {
@@ -456,7 +458,7 @@ using Spektrum_Fertig;
         {
 
             source.NewFrameFunction();
-            source.picturemachen(1280, 1024);
+            source.picturemachen(1928, 1448);
 
             bitma = source.Bitmaaaaa;
             
@@ -467,7 +469,7 @@ using Spektrum_Fertig;
         {
 
             source.testbitmap();
-
+            bitma = source.Bitmaaaaa;
         }
 
 
@@ -670,7 +672,7 @@ using Spektrum_Fertig;
 
                 zwspeicherliste.Clear();
 
-
+             
                
 
                 gewichteteLeistung = gesamtleistungKamera *prozentualerAnteil[3];
@@ -678,11 +680,11 @@ using Spektrum_Fertig;
 
                 aperaturradius = aperaturdurchmesser / 2;
 
-                bestrahlungsstärke = gewichteteLeistung / (Math.PI * (aperaturradius * aperaturradius));
+                bestrahlungsstärke = leistungkleineQuellen / (Math.PI * (aperaturradius * aperaturradius));
 
-                raumwinkel = (Math.PI * (aperaturradius * aperaturradius)) / (bildabstand * bildabstand);
+               /* raumwinkel = (Math.PI * (aperaturradius * aperaturradius)) / (bildabstand * bildabstand);
 
-                strahldichte = bestrahlungsstärke / raumwinkel;
+                strahldichte = bestrahlungsstärke / raumwinkel;*/
 
 
                 expositionswertF = 0;
@@ -783,7 +785,7 @@ using Spektrum_Fertig;
 
                 aperaturradius = aperaturdurchmesser / 2;
 
-                bestrahlungsstärke = gewichteteLeistung / (Math.PI * (aperaturradius * aperaturradius));
+                bestrahlungsstärke = leistungkleineQuellen/ (Math.PI * (aperaturradius * aperaturradius));
 
                 raumwinkel = (Math.PI * (aperaturradius * aperaturradius)) / (bildabstand * bildabstand);
 
@@ -1424,8 +1426,13 @@ using Spektrum_Fertig;
                 aperaturradius = aperaturdurchmesser / 2;
 
                 bestrahlungsstärke = gewichteteLeistung / (Math.PI * (aperaturradius * aperaturradius));
-
+                                
                 raumwinkel = (Math.PI * (aperaturradius * aperaturradius)) / (bildabstand * bildabstand);
+                if (raumwinkel < 0.000962)
+                {
+                    raumwinkel = 0.000962;
+                }
+                else { }
 
                 strahldichte = bestrahlungsstärke / raumwinkel;
 
@@ -1446,16 +1453,20 @@ using Spektrum_Fertig;
 
                     zwspeicherliste.Add(strahldichte * spektrumcounts[i]*blaulichtgefahrwirkfkt[i]);
                 }
+               
+
+
+
 
                 for (int i = 0; i < zwspeicherliste.Count; i++)
                 {
-                    blaulicht[j] = blaulicht[j] + zwspeicherliste[i];
+                    blaulicht[j] = zwspeicherliste.Sum();
 
                 }
             }
         }
 
-        /*public void getBlaulichtKleineQuellen()
+       /* public void getBlaulichtKleineQuellen()
         {
             blaulichtkleinequelle = new List<double>() { 0, 0, 0 };
             for (int j = 0; j < empfangswinkel62471.Count; j++)
@@ -1466,7 +1477,7 @@ using Spektrum_Fertig;
 
                 aperaturradius = aperaturdurchmesser / 2;
 
-                bestrahlungsstärke = gewichteteLeistung / (Math.PI * (aperaturradius * aperaturradius));
+                bestrahlungsstärke = leistungkleineQuellen / (Math.PI * (aperaturradius * aperaturradius));
 
 
                 for (int i = 0; i < wellenlaenge.Count; i++)
@@ -1496,9 +1507,9 @@ using Spektrum_Fertig;
 
 
 
-        }
+        }*/
 
-        */
+        
         public void getNetzhautthermisch()
         {
 
@@ -1513,7 +1524,11 @@ using Spektrum_Fertig;
 
                 bestrahlungsstärke = gewichteteLeistung / (Math.PI * (aperaturradius * aperaturradius));
                 raumwinkel = (Math.PI * (aperaturradius * aperaturradius)) / (bildabstand * bildabstand);
-
+                if (raumwinkel < 0.000962)
+                {
+                    raumwinkel = 0.000962;
+                }
+                else { }
                 strahldichte = bestrahlungsstärke / raumwinkel;
 
                 for (int i = 0; i < wellenlaenge.Count; i++)
@@ -1556,7 +1571,11 @@ using Spektrum_Fertig;
 
                 bestrahlungsstärke = gewichteteLeistung / (Math.PI * (aperaturradius * aperaturradius));
                 raumwinkel = (Math.PI * (aperaturradius * aperaturradius)) / (bildabstand * bildabstand);
-
+                if (raumwinkel < 0.000962)
+                {
+                    raumwinkel = 0.000962;
+                }
+                else { }
                 strahldichte = bestrahlungsstärke / raumwinkel;
 
                 for (int i = 0; i < wellenlaenge.Count; i++)
@@ -1642,9 +1661,9 @@ using Spektrum_Fertig;
 
             double Expositionswert = 0;
 
-            double Expositionswert0 = 0;
-            double Expositionswert1 = 0;
-            double Expositionswert2 = 0;
+            double Expositionswert0 = aktinischesUV[0];
+            double Expositionswert1 = aktinischesUV[1];
+            double Expositionswert2 = aktinischesUV[2];
 
 
             Expositionswert = aktinischesUV[0];
@@ -1671,28 +1690,28 @@ using Spektrum_Fertig;
             switch (Expositionswert)
             {
                 case double i when i <= 10:
-                    risikostufeaktinischesUV = "Risikofrei";
+                    risikostufeAugeUVA = "Risikofrei";
                     break;
 
                 case double i when i <= 33 && i > 10:
-                    risikostufeaktinischesUV = "Gerninges Risiko";
+                    risikostufeAugeUVA = "Gerninges Risiko";
                     break;
                 case double i when i <= 100 && i > 33:
-                    risikostufeaktinischesUV = "Mittleres Risiko";
+                    risikostufeAugeUVA = "Mittleres Risiko";
                     break;
                 default:
-                    risikostufeaktinischesUV = "Hohes Risiko";
+                    risikostufeAugeUVA = "Hohes Risiko";
                     break;
             }
 
 
-            Expositionswert = blaulichtkleinequelle[0];
+            /*Expositionswert = blaulichtkleinequelle[0];
 
             switch (Expositionswert)
             {
                 /*case double i when i <= 1:
                     risikostufeaktinischesUV = "Risikofrei";
-                    break;*/
+                    break;
 
                 case double i when i <= 1:
                     risikostufeaktinischesUV = "Gerninges Risiko";
@@ -1704,24 +1723,24 @@ using Spektrum_Fertig;
                     risikostufeaktinischesUV = "Hohes Risiko";
                     break;
             }
-
+            */
 
             Expositionswert = augeir[0];
 
             switch (Expositionswert)
             {
                 case double i when i <= 100:
-                    risikostufeaktinischesUV = "Risikofrei";
+                    risikostufeIRstrahlung = "Risikofrei";
                     break;
 
                 case double i when i <= 570 && i >100:
-                    risikostufeaktinischesUV = "Gerninges Risiko";
+                    risikostufeIRstrahlung = "Gerninges Risiko";
                     break;
                 case double i when i <= 3200 && i > 570:
-                    risikostufeaktinischesUV = "Mittleres Risiko";
+                    risikostufeIRstrahlung = "Mittleres Risiko";
                     break;
                 default:
-                    risikostufeaktinischesUV = "Hohes Risiko";
+                    risikostufeIRstrahlung = "Hohes Risiko";
                     break;
             }
 
@@ -1735,7 +1754,7 @@ using Spektrum_Fertig;
             }
             else if (Expositionswert1<=10000)
             {
-                risikostufeBlaulicht = "Gerninges Risiko";
+                risikostufeBlaulicht = "Geringes Risiko";
             }
             else if (Expositionswert0<=4000000)
             {
